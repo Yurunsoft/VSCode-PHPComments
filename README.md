@@ -7,3 +7,12 @@
 
 #截图
 ![image](https://coding.net/u/yurunsoft/p/VSCode-PHPComments/git/raw/master/screenshot.gif)
+
+#使用说明
+把整个项目目录放进VSCode的插件目录
+
+Windows `%USERPROFILE%\.vscode\extensions`
+
+Mac `$HOME/.vscode/extensions`
+
+Linux `$HOME/.vscode/extensions`
