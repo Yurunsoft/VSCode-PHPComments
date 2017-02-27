@@ -37,9 +37,12 @@ export function activate(context: vscode.ExtensionContext) {
             tab += ' ';
             insertContent += tab + '* '+methodName+'\r\n';
             matches = matches[1].match(/(\$[^\s,\)]+)/g);
-            for(var i=0;i<matches.length;i++)
+            if(null !== matches)
             {
-                insertContent += tab + '* @param mixed ' + matches[i] + ' \r\n';
+                for(var i=0;i<matches.length;i++)
+                {
+                    insertContent += tab + '* @param mixed ' + matches[i] + ' \r\n';
+                }
             }
             insertContent += tab + '* @return mixed \r\n';
             insertContent += tab + '*/';
