@@ -18,7 +18,7 @@
         "commands": [
             {
                 "command": "extension.addPHPComments",
-                "title": "给方法加注释"
+                "title": "PHP智能注释"
             }
         ],
         "menus": {
