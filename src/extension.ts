@@ -17,33 +17,41 @@ export function activate(context: vscode.ExtensionContext) {
             var positionEnd = new vscode.Position(vscode.window.activeTextEditor.selection.start.line+1,0);
             var content = vscode.window.activeTextEditor.document.getText(new vscode.Range(positionStart,positionEnd));
             var matches = content.match(/function ([^\s(]+)\(/);
-            if(null === matches)
-            {
-                return;
-            }
-            var methodName = matches[1];
-            matches = content.match(/\(([^)]*)\)/);
-            if(null === matches || matches.length <= 1)
-            {
-                return;
-            }
             var tabMatches = content.match(/^\s+/);
             var tab = '';
             if(null !== tabMatches)
             {
                 tab = tabMatches[0];
             }
-            var insertContent = tab + '/**\r\n';
-            tab += ' ';
-            insertContent += tab + '* '+methodName+'\r\n';
-            matches = matches[1].match(/(\$[^\s,\)]+)/g);
-            for(var i=0;i<matches.length;i++)
+            if(null === matches)
             {
-                insertContent += tab + '* @param mixed ' + matches[i] + ' \r\n';
+                // 万能注释
+                var insertContent = tab + '/**\r\n' + tab + ' * \r\n' + tab + ' * @var mixed\r\n' + tab + ' */';
+                editBuilder.insert(positionStart,insertContent + '\r\n');
             }
-            insertContent += tab + '* @return mixed \r\n';
-            insertContent += tab + '*/';
-            editBuilder.insert(positionStart,insertContent + '\r\n');
+            else
+            {
+                var methodName = matches[1];
+                matches = content.match(/\(([^)]*)\)/);
+                if(null === matches || matches.length <= 1)
+                {
+                    return;
+                }
+                var insertContent = tab + '/**\r\n';
+                tab += ' ';
+                insertContent += tab + '* '+methodName+'\r\n';
+                matches = matches[1].match(/(\$[^\s,\)]+)/g);
+                if(null !== matches)
+                {
+                    for(var i=0;i<matches.length;i++)
+                    {
+                        insertContent += tab + '* @param mixed ' + matches[i] + ' \r\n';
+                    }
+                }
+                insertContent += tab + '* @return mixed \r\n';
+                insertContent += tab + '*/';
+                editBuilder.insert(positionStart,insertContent + '\r\n');
+            }
         }, {
             undoStopBefore: true,
             undoStopAfter: true
