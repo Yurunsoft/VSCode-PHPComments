@@ -3,7 +3,7 @@
     "displayName": "PHPComments",
     "description": "PHPComments",
     "version": "0.0.1",
-    "publisher": "Yurun",
+    "publisher": "yurun",
     "engines": {
         "vscode": "^1.5.0"
     },
